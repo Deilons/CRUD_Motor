@@ -11,19 +11,14 @@
     <a asp-controller="MotorInfo" asp-action="Create" class="btn btn-primary">Create a new motor</a>
 </p>
 
-<table class="table">
+<table class="table text-center table-striped">
     <thead>
         <tr>
             <th>Brand</th>
             <th>Model</th>
-            <th>Displacement</th>
-            <th>Cylinders</th>
-            <th>Aspiration</th>
-            <th>Horse Power</th>
-            <th>Torque</th>
             <th>Fuel Type</th>
-            <th>Is Turbocharged</th>
             <th>Year</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -32,14 +27,9 @@
         <tr>
             <td>@item.Brand</td>
             <td>@item.Model</td>
-            <td>@item.Displacement</td>
-            <td>@item.Cylinders</td>
-            <td>@item.Aspiration</td>
-            <td>@item.HorsePower</td>
-            <td>@item.Torque</td>
             <td>@item.FuelTypeName</td>
-            <td>@item.IsTurbocharged</td>
             <td>@item.Year</td>
+            <td><a asp-controller="MotorInfo" asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">Details</a> | <a asp-controller="MotorInfo" asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id">Edit</a> | <a asp-controller="MotorInfo" asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a></td>
         </tr>
     }
     </tbody>
