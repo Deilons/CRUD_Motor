@@ -117,6 +117,36 @@ namespace CRUD_Motor.Controllers
             }
         }
 
+        [Route("delete/{id}")]
+
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var motorInfo = await _context.MotorInfos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (motorInfo == null)
+            {
+                return NotFound();
+            }
+
+            return View(motorInfo);
+        }
+
+        [HttpPost("delete/{id}"), ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var motorInfo = await _context.MotorInfos.FindAsync(id);
+            _context.MotorInfos.Remove(motorInfo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
         private bool MotorInfoExists(Guid id)
         {
             return _context.MotorInfos.Any(e => e.Id == id);
