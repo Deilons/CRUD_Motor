@@ -68,17 +68,25 @@ namespace CRUD_Motor.Controllers
 
         [Route("edit/{id}")]
 
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             var motorInfo = await _context.MotorInfos.FindAsync(id);
+            if (motorInfo == null)
+            {
+                return NotFound();
+            }
             return View(motorInfo);
         }
 
         [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, MotorInfo motorInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Brand,Model,Displacement,Cylinders,Aspiration,HorsePower,Torque,FuelType,isTurbocharged,Year")] MotorInfo motorInfo)
         {
-            if (motorInfo.Id.ToString() != id.ToString())
+            if (id != motorInfo.Id)
             {
                 return NotFound();
             }
