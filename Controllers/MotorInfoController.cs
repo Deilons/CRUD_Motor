@@ -65,5 +65,61 @@ namespace CRUD_Motor.Controllers
                 return View(motorInfo);
             }
         }
+
+        [Route("edit/{id}")]
+
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var motorInfo = await _context.MotorInfos.FindAsync(id);
+            if (motorInfo == null)
+            {
+                return NotFound();
+            }
+            return View(motorInfo);
+        }
+
+        [HttpPost("edit/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Brand,Model,Displacement,Cylinders,Aspiration,HorsePower,Torque,FuelType,isTurbocharged,Year")] MotorInfo motorInfo)
+        {
+            if (id != motorInfo.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(motorInfo);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MotorInfoExists(motorInfo.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View(motorInfo);
+            }
+        }
+
+        private bool MotorInfoExists(Guid id)
+        {
+            return _context.MotorInfos.Any(e => e.Id == id);
+        }
     }
 }
