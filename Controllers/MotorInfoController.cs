@@ -146,6 +146,25 @@ namespace CRUD_Motor.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //details
+        [Route("details/{id}")]
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var motorInfo = await _context.MotorInfos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (motorInfo == null)
+            {
+                return NotFound();
+            }
+
+            return View(motorInfo);
+        }
+        
 
         private bool MotorInfoExists(Guid id)
         {
