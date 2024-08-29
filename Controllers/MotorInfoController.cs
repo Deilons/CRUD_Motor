@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CRUD_Motor.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CRUD_Motor.Controllers
 {
@@ -35,6 +37,15 @@ namespace CRUD_Motor.Controllers
         {
             var motorInfos = await _context.MotorInfos.ToListAsync();
             return View(motorInfos);
+        }
+
+
+        [Route("[action]")]
+        public IActionResult Create()
+        {   
+            ViewBag.FuelTypes = new SelectList(Enum.GetValues(typeof(FieldType)));
+
+            return View();
         }
     }
 }

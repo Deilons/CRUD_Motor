@@ -1,3 +1,46 @@
-<div class="text-center">
-    <h1 class="display-4">this is the CREATE view</h1>
-</div>
+@model CRUD_Motor.Models.MotorInfo
+
+@{
+    ViewBag.Title = "Create Motor";
+}
+
+<h2>Create Motor</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>MotorInfo</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Otras propiedades -->
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FuelType, "Fuel Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FuelType, new SelectList(ViewBag.FuelTypes), "Select Fuel Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FuelType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Botones y otros campos -->
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<p>
+    <a asp-controller="MotorInfo" asp-action="Index" class="btn btn-primary">Back to List</a>
+</p>
