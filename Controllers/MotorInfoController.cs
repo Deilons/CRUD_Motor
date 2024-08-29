@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CRUD_Motor.Data;
+using CRUD_Motor.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CRUD_Motor.Controllers
 {
@@ -35,6 +38,32 @@ namespace CRUD_Motor.Controllers
         {
             var motorInfos = await _context.MotorInfos.ToListAsync();
             return View(motorInfos);
+        }
+
+        // GET: MotorInfo/Create
+        [Route("create")]
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        // POST: MotorInfo/Create
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(MotorInfo motorInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(motorInfo);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                _logger.LogError("Error creating new motor");
+                return View(motorInfo);
+            }
         }
     }
 }
