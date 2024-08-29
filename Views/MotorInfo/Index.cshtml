@@ -1,3 +1,46 @@
+@model IEnumerable<CRUD_Motor.Models.MotorInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
 <div class="text-center">
     <h1 class="display-4">this is the INDEX view</h1>
 </div>
+
+<p>
+    <a asp-controller="MotorInfo" asp-action="Create" class="btn btn-primary">Create a new motor</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Displacement</th>
+            <th>Cylinders</th>
+            <th>Aspiration</th>
+            <th>Horse Power</th>
+            <th>Torque</th>
+            <th>Fuel Type</th>
+            <th>Is Turbocharged</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Brand</td>
+            <td>@item.Model</td>
+            <td>@item.Displacement</td>
+            <td>@item.Cylinders</td>
+            <td>@item.Aspiration</td>
+            <td>@item.HorsePower</td>
+            <td>@item.Torque</td>
+            <td>@item.FuelTypeName</td>
+            <td>@item.IsTurbocharged</td>
+            <td>@item.Year</td>
+        </tr>
+    }
+    </tbody>
+</table>

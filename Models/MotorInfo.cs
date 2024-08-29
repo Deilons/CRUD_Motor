@@ -55,7 +55,7 @@ namespace CRUD_Motor.Models
 
         [Required]
         [Column("fuel_type")]
-        [EnumDataType(typeof(FuelTypeEnum))]
+        [Range(0, 2, ErrorMessage = "FuelType must be between 0 and 2")]
         [MaxLength(10, ErrorMessage = "FuelType can not be longer than 10 characters")]
         public FuelTypeEnum FuelType { get; set; }
 
@@ -69,12 +69,16 @@ namespace CRUD_Motor.Models
         [Range(1886, 2100)]
         [MaxLength(4, ErrorMessage = "Year can not be longer than 4 characters")]
         public int Year { get; set; }
+
+        [NotMapped]
+        public string FuelTypeName => FuelType.ToString();
     }
 
-    public enum FuelTypeEnum
+        public enum FuelTypeEnum
     {
-        Gasoline,
-        Diesel,
-        Electric
+        Gasoline = 1,
+        Diesel = 2,
+        Electric = 3
     }
+    
 }

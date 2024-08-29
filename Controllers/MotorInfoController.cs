@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CRUD_Motor.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CRUD_Motor.Controllers
@@ -22,8 +23,8 @@ namespace CRUD_Motor.Controllers
         }
 
         [Route("[action]")]
-        
-        
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -32,8 +33,8 @@ namespace CRUD_Motor.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var allMotors = _context.MotorInfos.ToList();
-            return View();
+            var motorInfos = await _context.MotorInfos.ToListAsync();
+            return View(motorInfos);
         }
     }
 }
