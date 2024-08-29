@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CRUD_Motor.Data;
+using CRUD_Motor.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -39,13 +40,30 @@ namespace CRUD_Motor.Controllers
             return View(motorInfos);
         }
 
-
-        [Route("[action]")]
+        // GET: MotorInfo/Create
+        [Route("create")]
         public IActionResult Create()
-        {   
-            ViewBag.FuelTypes = new SelectList(Enum.GetValues(typeof(FieldType)));
+        {
 
             return View();
+        }
+
+        // POST: MotorInfo/Create
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(MotorInfo motorInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(motorInfo);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                _logger.LogError("Error creating new motor");
+                return View(motorInfo);
+            }
         }
     }
 }
